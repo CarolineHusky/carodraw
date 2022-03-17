@@ -5,13 +5,13 @@ from .base.position import Position
 
 from .tech.positional import Positional
 
-from .styling import PathStyling
+from .styling.path import PathStyling, PathPointStyling
 
 
 class Path(Boxable, Positional[PathStyling], PathStyling):
     """This is used internally to draw lines."""
 
-    def __init__(self, values: List[PathStyling], **kwargs):
+    def __init__(self, values: List[PathPointStyling], **kwargs):
         """Correctly set the top-left and bottom-right corners"""
         self.values = values
         left = None
@@ -31,3 +31,11 @@ class Path(Boxable, Positional[PathStyling], PathStyling):
         self.end = Position(bottom, right)
         for ele in kwargs:
             setattr(self, ele, kwargs[ele])
+
+    def __add__(self, other: Positional[PathPointStyling]):
+        return Path(self.values + other.values)
+
+    def __iadd__(self, other: Positional[PathPointStyling]):
+        for value in other.values:
+            self.values.append(value)
+            self.patchBox(value)

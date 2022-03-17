@@ -70,6 +70,16 @@ class Boxable:
             return False
         return True
 
+    def patchBox(self, value: Position):
+        if value.x<self.start.x:
+            self.start.x = value.x
+        if value.x>self.end.x:
+            self.end.x = value.x
+        if value.y<self.start.y:
+            self.start.y = value.y
+        if value.x>self.end.x:
+            self.end.y = value.y
+
 
 
 @dataclass

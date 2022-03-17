@@ -10,7 +10,7 @@ class AmbiguousPositionalException(Exception):
 SetVar = TypeVar('SetVar')
 
 
-class PositionalSampling(Generic[SetVar], SetVar):
+class PositionalSampling(Generic[SetVar]):
     """
     A sampling of a set of properties that vary along space
     
@@ -32,7 +32,7 @@ class PositionalSampling(Generic[SetVar], SetVar):
         return value
 
 
-class Positional(Generic[SetVar], SetVar):
+class Positional(Generic[SetVar]):
     circle: bool = False
 
     """A set of properties that vary along space"""

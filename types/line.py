@@ -5,8 +5,8 @@ from base.position import Position
 from base.box import Boxable
 
 from styling.endpoint import SeperableEndPointType
-from styling.line import LineStyling
-from styling.path import PathStyling
+from styling.line import LineStyling, LinePointStyling
+from styling.path import PathPointStyling
 
 from .tech.positional import Positional
 from .path import Path
@@ -14,29 +14,13 @@ from .path import Path
 
 class Line(Boxable, Positional[LineStyling], LineStyling):
     """This is the line as represented by the system. May consist of one or several paths"""
-    outline: bool = False
-    circle: bool = False
-    _fill: bool = False
-    _startEndpoint: SeperableEndPointType = None
-    _endEndpoint: SeperableEndPointType = None
 
-    def __init__(self, values: List[LineStyling], circle: bool = False, fill: bool = False, outline: bool = False, startEndpoint: bool = False, endEndpoint: bool = False, **kwargs):
+    def __init__(self, values: List[LinePointStyling], circle: bool = False, fill: bool = False, outline: bool = False, startEndpoint: bool = False, endEndpoint: bool = False, **kwargs):
         self.values = values
-        left = None
-        top = None
-        right = None
-        bottom = None
+        self.start = Position(values[0].x, values[0].y)
+        self.end = Position(values[0].x, values[0].y)
         for value in self.values:
-            if left == None or value.x<left:
-                left = value.x
-            if right == None or value.x>right:
-                right = value.x
-            if top == None or value.y<top:
-                top = value.y
-            if bottom == None or value.y>bottom:
-                bottom = value.y
-        self.start = Position(left, top)
-        self.end = Position(bottom, right)
+            self.patchBox(value)
 
         self.outline = outline
         self.circle = circle
@@ -47,17 +31,10 @@ class Line(Boxable, Positional[LineStyling], LineStyling):
         for ele in kwargs:
             setattr(self, ele, kwargs[ele])
 
-    def __iadd__(self, value: LineStyling):
+    def __iadd__(self, value: LinePointStyling):
         self.values.append(value)
 
-        if value.x<self.start.x:
-            self.start.x = value.x
-        if value.x>self.end.x:
-            self.end.x = value.x
-        if value.y<self.start.y:
-            self.start.y = value.y
-        if value.x>self.end.x:
-            self.end.y = value.y
+        self.patchBox(value)
 
         del self.outlinePath
         del self.fillPath
@@ -99,23 +76,38 @@ class Line(Boxable, Positional[LineStyling], LineStyling):
             self.fill = False
             del self.outlinePath
 
+    @property
+    def topPath(self) -> Path:
+        path: List[PathPointStyling] = []
+        for position in self.values:
+            self.patchBox(position.topPath)
+            path.append(position.topPath)
+        return Path(path)
+
+    @property
+    def bottomPath(self) -> Path:
+        path: List[PathPointStyling] = []
+        for position in reversed(self.values):
+            self.patchBox(position.bottomPath)
+            path.append(position.bottomPath)
+        return Path(path)
+
     @cached_property
     def outlinePath(self) -> Path:
-        path: List[PathStyling] = []
-        for position in self.values:
-            path.append(position.topPath)
+        path = self.topPath
         if not self.circle:
             if self.endEndpoint:
-                endPoint = position + self.endEndpoint
-                path.append(PathStyling(endPoint.x, endPoint.y, position.colour, position.antialias, self.endEndpoint))
-            for position in reversed(self.values):
-                path.append(position.bottomPath)
+                endPoint = self.values[-1] + self.endEndpoint
+                self.patchBox(endPoint)
+                path += + Path([PathPointStyling(endPoint.x, endPoint.y, self.values[-1].colour, self.values[-1].antialias, self.endEndpoint)])
+            path += self.bottomPath
             if self.startEndpoint:
-                startPoint = position + self.startEndpoint
-                path.append(PathStyling(startPoint.x, startPoint.y, position.colour, position.antialias, self.startEndpoint))
-        return Path(path)
+                startPoint = self.values[0] + self.startEndpoint
+                self.patchBox(startPoint)
+                path += Path([PathPointStyling(startPoint.x, startPoint.y, self.values[-1].colour, self.values[-1].antialias, self.startEndpoint)])
+        return path
 
     @cached_property
     def fillPath(self) -> Path:
         if self.fill:
-            return Path(self.values)
+            return self.bottomPath
