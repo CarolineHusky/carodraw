@@ -28,8 +28,8 @@
      inkscape:snap-object-midpoints="true"
      inkscape:snap-global="false"
      inkscape:zoom="1.2219958"
-     inkscape:cx="289.69002"
-     inkscape:cy="186.98918"
+     inkscape:cx="289.69003"
+     inkscape:cy="186.98919"
      inkscape:window-width="1920"
      inkscape:window-height="1023"
      inkscape:window-x="0"
@@ -164,7 +164,7 @@
        cy="111.32155"
        r="4.2333331" />
     <path
-       style="color:#000000;fill:#ffffff;stroke-linecap:round;-inkscape-stroke:none;stroke:#000000;stroke-opacity:1"
+       style="color:#000000;fill:#c0c0c0;stroke-linecap:round;-inkscape-stroke:none;stroke:#000000;stroke-opacity:1;fill-opacity:1"
        d="M 78.541016,22.052734 C 56.961239,21.84655 31.070031,37.896836 5.1972656,53.626953 a 2.1166649,2.1166649 0 0 0 -0.7089844,2.908203 2.1166649,2.1166649 0 0 0 2.9082032,0.708985 C 33.26925,41.514023 59.123706,26.10196 78.501953,26.287109 97.880267,26.47226 112.54039,41.932239 127.625,58.052734 a 2.1166649,2.1166649 0 0 0 2.99023,0.09961 2.1166649,2.1166649 0 0 0 0.0996,-2.992188 C 115.63024,39.039662 100.12073,22.258918 78.541016,22.052734 Z"
        id="path857" />
     <circle
