@@ -13,6 +13,9 @@ The following types are available:
 ```python
 @dataclass
 class Isolate(Line):
+	startPoint: StyledEndPoint
+	endPoint: StyledEndPoint
+	path: Path = None
 ```
 
 An `Isolate` is a `Line` which ain't connected to anything, connecting its `startPoint` to its `endPoint`.
@@ -40,6 +43,8 @@ The path between the start point and the end point of the `Isolate`
 ```python
 @dataclass
 class Shape(Line):
+	centerPoint: Position
+	path: Path = None
 ```
 An `Shape` is a `Line` which ain't connected to anything, but whose path forms a circle
 
@@ -66,6 +71,9 @@ An `Inwards` is a `Line` that starts on a `Cut` of the `Path` of an `Shape`, and
 
 ```python
 	origin: Shape
+	startPoint: StyledCut
+	endPoint: StyledEndPoint
+	path: Path = None
 ```
 The shape the Inwards leads back to
 
@@ -103,6 +111,10 @@ A `Bridge` is a `Inwards` that ends in another `Shape`
 
 ```python
 	origin: Shape
+	startPoint: StyledCut
+	child: Shape
+	endPoint: StyledCut
+	path: Path = None
 ```
 The first shape the Inwards leads back to
 
@@ -145,6 +157,9 @@ The path between the start point and the end point of the `Inwards`
 ```python
 @dataclass
 class Outwards(Line):
+	startPoint: StyledCut
+	endPoint: StyledEndPoint
+	path: Path = None
 ```
 An `Outwards` is a `Line` that starts on a `Cut` of the `Path`, and which goes outwards from that `Path` from it until it reach its own `endPoint`
 
@@ -177,6 +192,9 @@ A `Tongue` is a `Shape` that splits a `Path`, from a `Cut` on one of it's sub-`P
 
 ```python
 	origin: Line
+	startPoint: StyledCut
+	endPoint: StyledCut
+	path: Path = None
 ```
 The origin `Line` that this `Split`s
 
@@ -213,6 +231,10 @@ The path between the start point and the end point of the `Tongue`
 ```python
 @dataclass
 class Split(Tongue):
+	origin: Shape
+	startPoint: StyledCut
+	endPoint: StyledCut
+	path: Path = None
 ```
 A `Split` is a `Tongue` that splits a `Shape`, from a `Cut` on one of it's sub-`Path`s to another `Cut` of it's on one of it's sub-`Path`s.
 
@@ -253,6 +275,10 @@ The path between the start point and the end point of the `Split`
 ```python
 @dataclass
 class BridgedSplit(Split):
+	origin: Shape
+	startPoint: StyledCut
+	endPoint: StyledCut
+	bridges: List[Bridge]
 ```
 A `Split` that encloses a set of other `Shape`s using `Bridges`
 
