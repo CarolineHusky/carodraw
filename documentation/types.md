@@ -65,7 +65,7 @@ class Inwards(Line):
 An `Inwards` is a `Line` that starts on a `Cut` of the `Path` of an `Shape`, and which goes inwards from it until it reach its own `endPoint`
 
 ```python
-	parent: Shape
+	origin: Shape
 ```
 The shape the Inwards leads back to
 
@@ -102,7 +102,7 @@ class Bridge(Inwards):
 A `Bridge` is a `Inwards` that ends in another `Shape`
 
 ```python
-	parent: Shape
+	origin: Shape
 ```
 The first shape the Inwards leads back to
 
@@ -110,9 +110,9 @@ The first shape the Inwards leads back to
 	startPoint: StyledCut
 ```
 The start point of the `Bridge`. Is a `Cut` on the `Path` from:
-- The `parent` `Shape` itself.
-- Another `Inwards` leading back to the `parent` `Shape`
-- A `Split` leading back to the `parent` `Shape` 
+- The `origin` `Shape` itself.
+- Another `Inwards` leading back to the `origin` `Shape`
+- A `Split` leading back to the `origin` `Shape` 
 
 Contains cut styling.
 
@@ -176,17 +176,17 @@ class Tongue(Shape):
 A `Tongue` is a `Shape` that splits a `Path`, from a `Cut` on one of it's sub-`Path`s to another `Cut` of it's on one of it's sub-`Path`s.
 
 ```python
-	parent: Line
+	origin: Line
 ```
-The parent `Line` that this `Split`s
+The origin `Line` that this `Split`s
 
 ```python
 	startPoint: StyledCut
 ```
 The start point of the `Tongue`. Can be a `Cut` on the `Path` of:
-- The parent `Line` itself
-- One of the `Inwards` from the parent `Line`
-- One of the `Split`'s from the parent `Line`, can be several layers deep.
+- The origin `Line` itself
+- One of the `Inwards` from the origin `Line`
+- One of the `Split`'s from the origin `Line`, can be several layers deep.
 
 Contains cut styling.
 
@@ -194,9 +194,9 @@ Contains cut styling.
 	endPoint: StyledCut
 ```
 The end point of the `Tongue`. Can be a `Cut` on the `Path` of:
-- The parent `Line` itself
-- One of the `Inwards` from the parent `Line`
-- One of the `Split`'s from the parent `Line`, can be several layers deep.
+- The origin `Line` itself
+- One of the `Inwards` from the origin `Line`
+- One of the `Split`'s from the origin `Line`, can be several layers deep.
 
 Contains cut styling.
 
@@ -217,17 +217,17 @@ class Split(Tongue):
 A `Split` is a `Tongue` that splits a `Shape`, from a `Cut` on one of it's sub-`Path`s to another `Cut` of it's on one of it's sub-`Path`s.
 
 ```python
-	parent: Shape
+	origin: Shape
 ```
-The parent `Shape` that this `Split`s
+The origin `Shape` that this `Split`s
 
 ```python
 	startPoint: StyledCut
 ```
 The start point of the `Split`. Can be a `Cut` on the `Path` of:
-- The parent `Shape` itself
-- One of the `Inwards` from the parent `Shape`
-- One of the `Split`'s from the parent `Shape`, can be several layers deep.
+- The origin `Shape` itself
+- One of the `Inwards` from the origin `Shape`
+- One of the `Split`'s from the origin `Shape`, can be several layers deep.
 
 Contains cut styling.
 
@@ -235,9 +235,9 @@ Contains cut styling.
 	endPoint: StyledCut
 ```
 The end point of the `Split`. Can be a `Cut` on the `Path` of:
-- The parent `Shape` itself
-- One of the `Inwards` from the parent `Shape`
-- One of the `Split`'s from the parent `Shape`, can be several layers deep.
+- The origin `Shape` itself
+- One of the `Inwards` from the origin `Shape`
+- One of the `Split`'s from the origin `Shape`, can be several layers deep.
 
 Contains cut styling.
 
@@ -257,17 +257,17 @@ class BridgedSplit(Split):
 A `Split` that encloses a set of other `Shape`s using `Bridges`
 
 ```python
-	parent: Shape
+	origin: Shape
 ```
-The parent `Shape` that this `Split`s
+The origin `Shape` that this `Split`s
 
 ```python
 	startPoint: StyledCut
 ```
 The start point of the `Split`. Can be a `Cut` on the `Path` of:
-- The parent `Shape` itself
-- One of the `Inwards` from the parent `Shape`
-- One of the `Split`'s from the parent `Shape`, can be several layers deep.
+- The origin `Shape` itself
+- One of the `Inwards` from the origin `Shape`
+- One of the `Split`'s from the origin `Shape`, can be several layers deep.
 
 Contains cut styling.
 
@@ -275,9 +275,9 @@ Contains cut styling.
 	endPoint: StyledCut
 ```
 The end point of the `Split`. Can be a `Cut` on the `Path` of:
-- The parent `Shape` itself
-- One of the `Inwards` from the parent `Shape`
-- One of the `Split`'s from the parent `Shape`, can be several layers deep.
+- The origin `Shape` itself
+- One of the `Inwards` from the origin `Shape`
+- One of the `Split`'s from the origin `Shape`, can be several layers deep.
 
 Contains cut styling.
 
@@ -285,4 +285,4 @@ Contains cut styling.
 ```python
 	bridges: List[Bridge]
 ```
-The set of bridges that this split connects. Each bridge needs to lead back to the preceding bridge in the list, and the `parent` of the first element in the list needs to be the `child` of the last element in the list
+The set of bridges that this split connects. Each bridge needs to lead back to the preceding bridge in the list, and the `origin` of the first element in the list needs to be the `child` of the last element in the list
