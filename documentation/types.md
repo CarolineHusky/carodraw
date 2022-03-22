@@ -66,14 +66,15 @@ The path of the `Shape`. This goes around, it's last point is it's first at the 
 ```python
 @dataclass
 class Inwards(Line):
+	origin: Shape
+	startPoint: StyledCut
+	endPoint: StyledEndPoint
+	path: Path = None
 ```
 An `Inwards` is a `Line` that starts on a `Cut` of the `Path` of an `Shape`, and which goes inwards from it until it reach its own `endPoint`
 
 ```python
 	origin: Shape
-	startPoint: StyledCut
-	endPoint: StyledEndPoint
-	path: Path = None
 ```
 The shape the Inwards leads back to
 
@@ -106,15 +107,16 @@ The path between the start point and the end point of the `Inwards`
 ```python
 @dataclass
 class Bridge(Inwards):
-```
-A `Bridge` is a `Inwards` that ends in another `Shape`
-
-```python
 	origin: Shape
 	startPoint: StyledCut
 	child: Shape
 	endPoint: StyledCut
 	path: Path = None
+```
+A `Bridge` is a `Inwards` that ends in another `Shape`
+
+```python
+	origin: Shape
 ```
 The first shape the Inwards leads back to
 
@@ -187,14 +189,15 @@ The path between the start point and the end point of the `Outwards`
 ```python
 @dataclass
 class Tongue(Shape):
+	origin: Line
+	startPoint: StyledCut
+	endPoint: StyledCut
+	path: Path = None
 ```
 A `Tongue` is a `Shape` that splits a `Path`, from a `Cut` on one of it's sub-`Path`s to another `Cut` of it's on one of it's sub-`Path`s.
 
 ```python
 	origin: Line
-	startPoint: StyledCut
-	endPoint: StyledCut
-	path: Path = None
 ```
 The origin `Line` that this `Split`s
 
