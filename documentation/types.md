@@ -100,13 +100,58 @@ The end point of the `Inwards`. Can be positioned in the canvas or relative to t
 The path between the start point and the end point of the `Inwards`
 
 
+### Ferry
+
+![Ferry](./img/Ferry.svg)
+
+```python
+@dataclass
+class Ferry(Outwards):
+	origin: Path
+	startPoint: StyledCut
+	child: Path
+	endPoint: StyledCut
+	path: Path = None
+```
+A `Ferry` is a `Outwards` that ends in another `Path`
+
+```python
+	origin: Path
+```
+The first `Path` the `Ferry` leads back to
+
+```python
+	startPoint: StyledCut
+```
+The start point of the `Ferry`. Is a `Cut` on the referred `Path`
+
+Contains cut styling.
+
+```python
+	child: Shape
+```
+The second shape the `Ferry` leads back to
+
+```python
+	endPoint: StyledCut
+```
+The end point of the `Ferry`. Is a `Cut` on the referred `Path`
+
+Contains cut styling.
+
+```python
+	path: Path = None
+```
+The path between the start point and the end point of the `Ferry`
+
+
 ### Bridge
 
 ![Bridge](./img/Bridge.svg)
 
 ```python
 @dataclass
-class Bridge(Inwards):
+class Bridge(Inwards, Ferry):
 	origin: Shape
 	startPoint: StyledCut
 	child: Shape
@@ -118,7 +163,7 @@ A `Bridge` is a `Inwards` that ends in another `Shape`
 ```python
 	origin: Shape
 ```
-The first shape the Inwards leads back to
+The first shape the `Bridge` leads back to
 
 ```python
 	startPoint: StyledCut
@@ -133,12 +178,12 @@ Contains cut styling.
 ```python
 	child: Shape
 ```
-The second shape the Inwards leads back to
+The second shape the `Bridge` leads back to
 
 ```python
 	endPoint: StyledCut
 ```
-The end point of the `Inwards`. Is a `Cut` on the `Path` from:
+The end point of the `Bridge`. Is a `Cut` on the `Path` from:
 - The `child` `Shape` itself.
 - Another `Inwards` leading back to the `child` `Shape`
 - A `Split` leading back to the `child` `Shape` 
@@ -148,7 +193,7 @@ Contains cut styling.
 ```python
 	path: Path = None
 ```
-The path between the start point and the end point of the `Inwards`
+The path between the start point and the end point of the `Bridge`
 
 
 
@@ -315,3 +360,48 @@ Contains cut styling.
 	bridges: List[Bridge]
 ```
 The set of bridges that this split connects. Each bridge needs to lead back to the preceding bridge in the list, and the `origin` of the first element in the list needs to be the `child` of the last element in the list
+
+
+### Dam
+
+![Dam](./img/Dam.svg)
+```python
+@dataclass
+class Dam(Tongue):
+	origin: Path
+	startPoint: StyledCut
+	endPoint: StyledCut
+	ferries: List[Ferry]
+```
+A `Dam` is towards a `Tongue` what a `BridgeSplit` is to a `Split`. I.e. it connects outwards two points on the same `Path` whilst crossing a number of `Ferry`s
+
+```python
+	origin: Path
+```
+The origin `Path` that this `Tongue`s
+
+```python
+	startPoint: StyledCut
+```
+The start point of the `Split`. Can be a `Cut` on the `Path` of:
+- The origin `Shape` itself
+- One of the `Inwards` from the origin `Shape`
+- One of the `Split`'s from the origin `Shape`, can be several layers deep.
+
+Contains cut styling.
+
+```python
+	endPoint: StyledCut
+```
+The end point of the `Split`. Can be a `Cut` on the `Path` of:
+- The origin `Shape` itself
+- One of the `Inwards` from the origin `Shape`
+- One of the `Split`'s from the origin `Shape`, can be several layers deep.
+
+Contains cut styling.
+
+
+```python
+	ferries: List[Ferry]
+```
+The set of ferries that this tongue connects. Each ferry needs to lead back to the preceding ferry in the list, and the `origin` of the first element in the list needs to be the `child` of the last element in the list
