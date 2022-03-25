@@ -10,7 +10,11 @@ Welcome to Carodraw's documentation!
    :maxdepth: 4
    :caption: Contents:
 
+   base
+   line
    main
+   path
+   shape
 
 
 Indices and tables

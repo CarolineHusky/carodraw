@@ -28,7 +28,7 @@ class HasParent(Generic[Parent]):
 
 @dataclass
 class HasOtherParent(Generic[Parent]):
-	"""The typing for a class that has another parent, and hence an origin"""
+	"""The typing for a class that has another parent, and hence another origin"""
 	
 	otherParent: Union[HasOtherParent,Parent]
 	"""This is the other direct ancestor of the element"""
