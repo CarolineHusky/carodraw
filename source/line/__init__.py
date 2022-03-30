@@ -1,5 +1,5 @@
 from path import Path
-from path.endpoint import StyledEndPoint
+from path.endpoint import EndPoint
 from dataclasses import dataclass
 
 
@@ -11,8 +11,8 @@ class Line(Path):
 ..	image:: /../documentation/img/Isolate.svg
 	"""
 	
-	startPoint: StyledEndPoint
-	"""The start point of the `Isolate`. Can be positioned in the canvas or relative to the area of another shape. Contains endpoint styling."""
+	startPoint: EndPoint
+	"""The start point of the `Line`. Can be positioned in the canvas or relative to the area of another shape. Contains endpoint styling."""
 	
-	endPoint: StyledEndPoint
-	"""The end point of the `Isolate`. Can be positioned in the canvas or relative to the area of another shape. Contains endpoint styling."""
+	endPoint: EndPoint
+	"""The end point of the `Line`. Can be positioned in the canvas or relative to the area of another shape. Contains endpoint styling."""

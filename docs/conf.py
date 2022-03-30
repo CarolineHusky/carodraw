@@ -10,16 +10,16 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, '/home/carolinehusky/Dev/carodraw/source')
+import os
+import sys
+sys.path.insert(0, '/home/carolinehusky/Dev/carodraw/source')
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'source'
-copyright = '2022, Author'
-author = 'Author'
+project = 'Carodraw'
+copyright = '2022, Caroline the Husky'
+author = 'Caroline the Husky'
 
 
 # -- General configuration ---------------------------------------------------

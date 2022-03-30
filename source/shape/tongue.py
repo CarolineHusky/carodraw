@@ -2,29 +2,20 @@ from dataclasses import dataclass
 from typing import List
 from base.implementers import HasParent
 from path import Path
-from path.endpoint import StyledCut
+from path.endpoint import Cut
 from . import Shape
 from line.extension import Ferry, Bridge
 
 @dataclass
 class Tongue(Shape, HasParent[Path]):
-	"""A :class:`Tongue` is a :class:`Shape` that splits a :class:`path.Path`, from a :class:`base.StyledCut` on it's sub-:class:`path.Path's to another :class:`path.endpoint.StyledCut`
+	"""A :class:`Tongue` is a :class:`Shape` that splits a :class:`path.Path`, from a :class:`path.endpoint.Cut` on it's sub-:class:`path.Path`'s to another :class:`path.endpoint.Cut`
 
 ..	image:: /../documentation/img/Tongue.svg
 	"""
 	
-	startPoint: StyledCut[Path]
-	"""The start point of the outwards line, as a `Cut` on any `Path`. Contains cut styling."""
+	startPoint: Cut[Path]
+	"""The start point of the outwards line, as a :class:`path.endpoint.Cut` on any :class:`path.Path`. Contains cut styling."""
 	
-	endPoint: StyledCut[Path]
-	"""The end point of the outwards line, as a `Cut` on any `Path`. Contains cut styling."""
+	endPoint: Cut[Path]
+	"""The end point of the outwards line, as a :class:`path.endpoint.Cut` on any :class:`path.Path`. Contains cut styling."""
 	
-	
-@dataclass
-class Dam(Tongue):
-	"""A :class:`Tongue` that encloses a set of other :class:`Shape`s using a :attr:`path` of :class:`Ferry`'s
-	
-..	image:: /../documentation/img/Dam.svg
-	"""
-	path: List[Ferry]
-	"""The set of ferries that this tongue connects. Each :class:`Ferry` needs to lead back to the preceding ferry in the list, and the :attr:`Ferry.origin` of the first element in the list needs to be the :attr:`Ferry.otherOrigin` of the last element in the list"""

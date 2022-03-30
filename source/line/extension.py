@@ -1,5 +1,5 @@
 from path import Path
-from path.endpoint import StyledEndPoint, StyledCut
+from path.endpoint import EndPoint, Cut
 from dataclasses import dataclass
 from . import Line
 from shape import Shape
@@ -12,7 +12,7 @@ class Outwards(Line, HasParent[Path]):
 ..	image:: /../documentation/img/Outwards.svg
 	"""
 	
-	startPoint: StyledCut[Path]
+	startPoint: Cut[Path]
 	"""The start point of the outwards line, as a `Cut` on any `Path`. Contains cut styling."""
 
 
@@ -23,7 +23,7 @@ class Inwards(Outwards, HasParent[Shape]):
 ..	image:: /../documentation/img/Inwards.svg
 	"""
 	
-	startPoint: StyledCut[Shape]
+	startPoint: Cut[Shape]
 	"""The start point of the outwards line, as a `Cut` on any `Shape`. Contains cut styling."""
 	
 	
@@ -34,7 +34,7 @@ class Ferry(Outwards, HasOtherParent[Path]):
 ..	image:: /../documentation/img/Ferry.svg
 	"""
 	
-	endPoint: StyledCut[Path]
+	endPoint: Cut[Path]
 	"""The end point of the outwards line, as a `Cut` on any `Path`. Contains cut styling."""
 	
 		
@@ -45,5 +45,5 @@ class Bridge(Inwards, HasOtherParent[Shape]):
 ..	image:: /../documentation/img/Bridge.svg
 	"""
 	
-	endPoint: StyledCut[Shape]
+	endPoint: Cut[Shape]
 	"""The end point of the outwards line, as a `Cut` on any `Shape`. Contains cut styling."""
